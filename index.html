@@ -2,32 +2,129 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>QuietSeries – Приключения на природе</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#222;line-height:1.6}
-header{background:#222;color:#fff;padding:40px;text-align:center}
-nav a{margin:0 10px;color:#ffcf33;text-decoration:none;font-weight:bold}
-section{padding:40px 20px;max-width:900px;margin:auto}
-footer{background:#f0f0f0;text-align:center;padding:20px}
-</style>
+  <meta charset="UTF-8">
+  <title>QuietSeries – Приключения на природе</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="config.js"></script>
+  <link rel="stylesheet" href="quests/styles.css">
 </head>
 <body>
-<header>
-  <h1>QuietSeries</h1>
-  <p>События, тимбилдинги, игры </p>
-  <nav>
 
-    <a href="quests/index.html">Квесты</a>
-  </nav>
-</header>
+<div class="page-container">
+  <!-- Главная секция -->
+  <section class="section hero-section">
+    <div class="hero-content">
+      <h1>QuietSeries</h1>
+      <p class="tagline">События, тимбилдинги, игры</p>
+      <p class="description">Мы создаём уникальные сценарии приключений на свежем воздухе: от командных квестов до творческих мастер‑классов. Погрузитесь в мир настоящих приключений.</p>
+      <a href="#nav" class="btn">Исследовать</a>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
 
-<section>
-  <h2>Добро пожаловать!</h2>
-  <p>Мы создаём уникальные сценарии приключений на свежем воздухе: от командных квестов до творческих мастер‑классов. Раздел <b>«Квесты»</b> — место, где живут наши игровые программы.</p>
-</section>
+  <!-- Наши программы -->
+  <section class="section nav-section" id="nav">
+    <div class="nav-content">
+      <h2>Наши программы</h2>
+      <div class="programs-block">
+        <div class="program-item">
+          <h3>КВЕСТЫ</h3>
+          <p>Интерактивные приключения на природе с загадками, командной работой и неожиданными открытиями.</p>
+          <a href="quests/index.html" class="btn">Подробнее</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
 
-<footer>© 2025 QuietSeries. Контакты: <a href="mailto:hi@quietseries.com">hi@quietseries.com</a></footer>
+  <!-- О нас -->
+  <section class="section about-section">
+    <div class="about-content">
+      <h2>О QuietSeries</h2>
+      <p>Мы верим, что лучшие воспоминания создаются на свежем воздухе, в окружении природы и единомышленников. Наша миссия — создавать уникальные впечатления, которые объединяют людей и помогают им раскрыть свой потенциал.</p>
+      <p>Каждое наше мероприятие — это тщательно продуманный сценарий, который сочетает в себе элементы игры, обучения и приключения. Мы работаем с профессиональными организаторами и используем качественный реквизит для создания незабываемого опыта.</p>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- Контакты -->
+  <section class="section contact-section">
+    <div class="contact-content">
+      <h2>Свяжитесь с нами</h2>
+      <p>Готовы к приключению? Свяжитесь с нами для обсуждения деталей вашего мероприятия.</p>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span>📱</span>
+          <a href="https://t.me/+rO_BPFRWtlUzYzJi" target="_blank">Telegram канал</a>
+        </div>
+        <div class="contact-item">
+          <span>📍</span>
+          <span>Z‑Camping, озеро Galina (25 км от Нячанга)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>© 2025 QuietSeries. Создаём незабываемые приключения.</p>
+</footer>
+
+<script>
+// Автоматический скролл между экранами (только вниз)
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.querySelector('.page-container');
+  const sections = document.querySelectorAll('.section');
+  let isScrolling = false;
+  let currentSection = 0;
+  let lastScrollTop = 0;
+
+  // Функция для скролла к следующей секции
+  function scrollToSection(index) {
+    if (index >= 0 && index < sections.length) {
+      sections[index].scrollIntoView({ behavior: 'smooth' });
+      currentSection = index;
+    }
+  }
+
+  // Обработчик скролла
+  container.addEventListener('scroll', function() {
+    if (isScrolling) return;
+    
+    const scrollTop = container.scrollTop;
+    const windowHeight = window.innerHeight;
+    const scrollPercentage = (scrollTop % windowHeight) / windowHeight;
+    
+    // Проверяем направление скролла
+    const scrollingDown = scrollTop > lastScrollTop;
+    lastScrollTop = scrollTop;
+    
+    // Если проскроллено больше 99% ВНИЗ, переходим к следующей секции
+    if (scrollPercentage > 0.99 && scrollingDown) {
+      isScrolling = true;
+      setTimeout(() => {
+        scrollToSection(currentSection + 1);
+        isScrolling = false;
+      }, 300);
+    }
+  });
+
+  // Обработчик клика по стрелочкам
+  document.querySelectorAll('.scroll-arrow').forEach((arrow, index) => {
+    arrow.addEventListener('click', function() {
+      scrollToSection(index + 1);
+    });
+  });
+
+  // Обработчик клавиш (только вниз)
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      scrollToSection(currentSection + 1);
+    }
+  });
+});
+</script>
+
 </body>
 </html>

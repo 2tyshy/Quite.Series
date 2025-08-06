@@ -5,74 +5,670 @@
   <meta charset="UTF-8">
   <title>Квест «Три пути» – Z‑Camping</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-      body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#222;line-height:1.6}
-      header{background:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.6)}
-      header h1{font-size:3rem;margin:0 1rem;text-align:center}
-      header p{font-size:1.2rem;margin:1rem;padding:0 1rem;text-align:center;max-width:700px}
-      header a.btn{display:inline-block;margin-top:20px;padding:12px 28px;background:#ffcf33;color:#000;font-weight:bold;border-radius:4px;text-decoration:none}
-      section{padding:60px 20px;max-width:1100px;margin:auto}
-      .paths{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
-      .card{flex:1 1 280px;background:#f7f7f7;border-radius:6px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-      .card img{width:100%;height:180px;object-fit:cover}
-      .card h3{margin:15px;font-size:1.4rem}
-      .card p{margin:0 15px 20px}
-      .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-      .cta{background:#222;color:#fff;text-align:center;padding:40px 20px}
-      .cta a.btn{background:#ffcf33;color:#000}
-      footer{background:#f0f0f0;text-align:center;padding:20px}
-      @media(max-width:600px){header h1{font-size:2rem}}
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <script src="../config.js"></script>
 </head>
 <body>
 
-<header>
-  <h1>Квест «Три пути»</h1>
-  <p>Выбери путь Тела, Сердца или Разума, пройди загадочный маршрут по живописной территории <b>Z‑Camping</b> у озера Galina и отпразднуй победу барбекю‑пикником.</p>
-  <a href="#booking" class="btn">Забронировать место</a>
-</header>
-
-<section id="about">
-  <h2>О квесте</h2>
-  <p>«Три пути» — приключенческий квест на свежем воздухе: тайники в лесу, загадки у воды и испытания на смекалку. Программа длится 4 часа с финальным BBQ для всех команд.</p>
-</section>
-
-<section>
-  <h2>Маршруты</h2>
-  <div class="paths">
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="">
-      <h3>Путь Тела</h3>
-      <p>Физические испытания, поиск тайников на тропах и мини‑полоса препятствий.</p>
-    </div>
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" alt="">
-      <h3>Путь Сердца</h3>
-      <p>Загадки на интуицию и эмоции, послания в бутылках, тайные письма.</p>
-    </div>
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="">
-      <h3>Путь Разума</h3>
-      <p>Шифры, кодовые замки и нестандартные головоломки.</p>
+<!-- Модальное окно с видео -->
+<div class="video-modal" id="videoModal">
+  <div class="video-modal-content">
+    <button class="video-close" id="videoClose">×</button>
+    <div class="custom-video-player">
+      <video id="mainVideo" preload="metadata" autoplay muted>
+        <source src="../videos/quest-video.mp4" type="video/mp4">
+        <source src="../videos/quest-video.webm" type="video/webm">
+        Ваш браузер не поддерживает видео.
+      </video>
+      <button class="video-fullscreen" id="mainFullscreen">⛶</button>
+      <div class="video-controls">
+        <div class="video-progress">
+          <div class="video-progress-bar" id="mainProgressBar"></div>
+        </div>
+        <div class="video-controls-bottom">
+          <div class="video-controls-left">
+            <button class="video-btn" id="mainPlayPause">⏸</button>
+            <div class="video-time">
+              <span id="mainCurrentTime">0:00</span> / <span id="mainDuration">0:00</span>
+            </div>
+          </div>
+          <div class="video-controls-right">
+            <div class="video-volume">
+              <button class="video-btn" id="mainMute">🔇</button>
+              <div class="volume-slider">
+                <div class="volume-bar" id="mainVolumeBar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
-<section>
-  <h2>Локация и стоимость</h2>
-  <p><b>Где:</b> Z‑Camping, озеро Galina (25 км от Нячанга).<br>
-     <b>Когда:</b> каждую сб и вс, старт 9:30.<br>
-     <b>Трансфер:</b> шаттл из города (100 000 VND) или самостоятельно.<br>
-     <b>Цена билета:</b> 600 000 VND (квест + BBQ).</p>
-</section>
+<!-- Модальное окно с формой бронирования -->
+<div class="booking-modal" id="bookingModal">
+  <div class="booking-modal-content">
+    <button class="booking-close" id="bookingClose">×</button>
+    <h2>Забронировать место</h2>
+    <form id="bookingForm" class="booking-form">
+      <div class="form-group">
+        <label for="name">Имя *</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Телефон *</label>
+        <input type="tel" id="phone" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="date">Дата *</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="form-group">
+        <label for="participants">Количество участников *</label>
+        <select id="participants" name="participants" required>
+          <option value="">Выберите количество</option>
+          <option value="1">1 человек</option>
+          <option value="2">2 человека</option>
+          <option value="3">3 человека</option>
+          <option value="4">4 человека</option>
+          <option value="5">5 человек</option>
+          <option value="6">6 человек</option>
+          <option value="7">7 человек</option>
+          <option value="8">8 человек</option>
+          <option value="9">9 человек</option>
+          <option value="10">10 человек</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Дополнительная информация</label>
+        <textarea id="message" name="message" rows="3" placeholder="Особые пожелания, вопросы..."></textarea>
+      </div>
+      <button type="submit" class="btn">Отправить заявку</button>
+    </form>
+  </div>
+</div>
 
-<section class="cta" id="booking">
-  <h2>Готовы к приключению?</h2>
-  <p>Бронируйте места — группы по 10 человек, места ограничены.</p>
-  <a href="https://t.me/your_bot_or_contact" class="btn">Записаться</a>
-</section>
+<!-- Свёрнутое видео в шапке -->
+<div class="mini-video" id="miniVideo">
+  <div class="mini-video-header">
+    <div class="mini-video-title">Teaser квеста «Три пути»</div>
+    <div class="mini-video-controls">
+      <button class="mini-video-btn" id="miniExpand" title="Развернуть">⛶</button>
+      <button class="mini-video-btn" id="miniClose" title="Закрыть">×</button>
+    </div>
+  </div>
+  <div class="mini-video-player">
+    <video id="miniVideo" preload="metadata" muted>
+      <source src="../videos/quest-video.mp4" type="video/mp4">
+      <source src="../videos/quest-video.webm" type="video/webm">
+    </video>
+    <div class="mini-video-controls">
+      <div class="mini-video-progress">
+        <div class="mini-video-progress-bar" id="miniProgressBar"></div>
+      </div>
+      <div class="mini-video-controls-bottom">
+        <button class="mini-video-btn" id="miniPlayPause">▶</button>
+        <div class="mini-video-time">
+          <span id="miniCurrentTime">0:00</span> / <span id="miniDuration">0:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<footer><a href="../index.html">← Все квесты</a></footer>
+<div class="page-container">
+  <!-- Легенда -->
+  <section class="section legend-section">
+    <video class="legend-bg-video" id="bgVideo" preload="metadata" muted>
+      <source src="../videos/quest-video.mp4" type="video/mp4">
+      <source src="../videos/quest-video.webm" type="video/webm">
+    </video>
+    <div class="legend-content">
+      <h2>Легенда о трёх странниках</h2>
+      <p>Давным-давно, когда мир был тише, чем сейчас, по этим тропам прошли трое. Никто не знал, откуда они пришли. Но каждый точно знал, зачем идёт.</p>
+      <p>Первый был сильным. Выносливым. Прямым. Он не задавал вопросов — он действовал. Он шёл вперёд, не оглядываясь. Его звали Тело.</p>
+      <p>Второй был лёгким, как ветер. Он слышал птиц. Слушал тишину. Шёл туда, куда звало сердце. Его звали Сердце.</p>
+      <p>Третий был тихим. Он шёл медленно. Замечал малое. Он искал суть. Искал смысл. Его звал Разум.</p>
+      <p>Они шли разными дорогами. Иногда встречались. Молча смотрели друг другу в глаза — и снова расходились.</p>
+      <p>Говорят, в этом лесу они нашли нечто. Что именно — никто не знает. Но они не вернулись.</p>
+      <p>С тех пор каждый, кто идёт по их следам, уже не возвращается тем же, кем был.</p>
+      <p>Сегодня идти будете вы. Кто-то — как Тело. Кто-то — как Сердце. Кто-то — как Разум.</p>
+      <p>Не спешите. Не угадывайте. Не советуйтесь. Просто послушайте себя. И выберите путь.</p>
+      <p>Но помни: самое важное сокровище ты найдёшь не в джунглях. А — в себе.</p>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- Заголовок квеста -->
+  <section class="section hero-section">
+    <div class="hero-content">
+      <h1>Квест «Три пути»</h1>
+      <p>Выбери путь Тела, Сердца или Разума, пройди загадочный маршрут по живописной территории <b>Z‑Camping</b> у озера Galina и отпразднуй победу барбекю‑пикником.</p>
+      <button class="btn" id="bookingBtn">Забронировать место</button>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- О квесте -->
+  <section class="section about-section">
+    <div class="about-content">
+      <h2>О квесте</h2>
+      <p><b>«Три пути»</b> — это приключенческий командный квест на свежем воздухе, проходящий на территории кемпинга Z‑Camping у озера Galina. Идеально подходит для туристов, корпоративных команд и всех, кто любит активный отдых и необычные впечатления. Квест рассчитан на группы до 10 человек и объединяет интеллектуальные, творческие и физические задания в единую сюжетную линию.</p>
+      <p>Вас ждёт атмосферное приключение с погружением в легенду, командная работа, поиск подсказок и неожиданные открытия. Каждый участник сможет проявить свои сильные стороны и внести вклад в общий успех команды.</p>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- Тайминг и этапы -->
+  <section class="section timing-section">
+    <div class="timing-content">
+      <h2>Тайминг и этапы</h2>
+      <ul class="timing-list">
+        <li><b>Приветствие и инструктаж</b> — знакомство с легендой, правилами и разделение на команды (10–15 минут).</li>
+        <li><b>Основной этап</b> — три команды параллельно проходят свои маршруты: Путь Сердца, Путь Разума, Путь Тела (2–2,5 часа).</li>
+        <li><b>Финальный этап</b> — все возвращаются в лагерь, объединяют найденные подсказки и решают завершающую загадку (20–30 минут).</li>
+        <li><b>Барбекю и общение</b> — неформальная часть, отдых, обсуждение впечатлений, пикник у костра (1–1,5 часа).</li>
+      </ul>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- Маршруты -->
+  <section class="section routes-section">
+    <div class="routes-content">
+      <h2>Маршруты</h2>
+      <div class="paths">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="">
+          <h3>Путь Тела</h3>
+          <p>Для тех, кто любит движение и вызовы. На этом маршруте вас ждут лёгкие физические испытания, поиск тайников и командная работа на природе.</p>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" alt="">
+          <h3>Путь Сердца</h3>
+          <p>Для тех, кто ценит интуицию, эмоции и доверие. Здесь важны внимание к деталям, умение слушать и находить нестандартные решения вместе.</p>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="">
+          <h3>Путь Разума</h3>
+          <p>Для любителей загадок и логики. На этом маршруте предстоит разгадывать шифры, искать скрытые смыслы и проявлять смекалку.</p>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- Особенности реквизита и атмосферы -->
+  <section class="section features-section">
+    <div class="features-content">
+      <h2>Особенности реквизита и атмосферы</h2>
+      <p>Вас ждёт тщательно подготовленный реквизит: письма с подсказками, загадки на табличках, спрятанные бутылки с посланиями, сундуки с картами и бонусами. Всё оформлено в едином стиле и помогает погрузиться в атмосферу приключения. Некоторые находки удивят даже опытных игроков!</p>
+      <p>Площадка Z‑Camping с её природными декорациями и уютными локациями делает каждую игру уникальной. Организаторы заботятся о безопасности, комфорте и поддерживают атмосферу настоящего приключения.</p>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- Финал: барбекю и общение -->
+  <section class="section final-section">
+    <div class="final-content">
+      <h2>Финал: барбекю и общение</h2>
+      <p>После прохождения маршрутов всех ждёт финальный сбор у костра или в специальной зоне. Здесь команды объединяют усилия, чтобы решить последнюю загадку, а затем начинается дружеский барбекю-пикник. Это время для отдыха, общения, обмена впечатлениями и новых знакомств.</p>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- Преимущества и уникальность -->
+  <section class="section advantages-section">
+    <div class="advantages-content">
+      <h2>Преимущества и уникальность</h2>
+      <ul class="advantages-list">
+        <li>Уникальный формат: сочетание интеллектуальных, творческих и физических заданий.</li>
+        <li>Погружение в атмосферу приключения с помощью реквизита и легенды.</li>
+        <li>Индивидуальный подход: каждый участник может проявить себя на своём маршруте.</li>
+        <li>Безопасность и забота: опытные ассистенты и организаторы сопровождают команды.</li>
+        <li>Финальный барбекю-пикник — отличный повод для неформального общения и отдыха на природе.</li>
+        <li>Идеально для тимбилдинга, семейных и дружеских компаний, корпоративных мероприятий.</li>
+      </ul>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- Локация и стоимость -->
+  <section class="section location-section">
+    <div class="location-content">
+      <h2>Локация и стоимость</h2>
+      <p><b>Где:</b> Z‑Camping, озеро Galina (25 км от Нячанга).</p>
+      <p><b>Когда:</b> каждую сб и вс, старт 9:30.</p>
+      <p><b>Трансфер:</b> шаттл из города (100 000 VND) или самостоятельно.</p>
+      <p><b>Цена билета:</b> 600 000 VND (квест + BBQ).</p>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- Бронирование -->
+  <section class="section booking-section" id="booking">
+    <div class="booking-content">
+      <h2>Готовы к приключению?</h2>
+      <p>Бронируйте места — группы по 10 человек, места ограничены.</p>
+      <button class="btn" id="bookingBtn2">Записаться</button>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <a href="../index.html">← Все квесты</a>
+</footer>
+
+<script>
+// Собственный видеоплеер
+document.addEventListener('DOMContentLoaded', function() {
+  const mainVideo = document.getElementById('mainVideo');
+  const miniVideo = document.getElementById('miniVideo');
+  const bgVideo = document.getElementById('bgVideo');
+  const mainPlayPause = document.getElementById('mainPlayPause');
+  const miniPlayPause = document.getElementById('miniPlayPause');
+  const bgPlayPause = document.getElementById('bgPlayPause');
+  const mainProgressBar = document.getElementById('mainProgressBar');
+  const miniProgressBar = document.getElementById('miniProgressBar');
+  const mainCurrentTime = document.getElementById('mainCurrentTime');
+  const miniCurrentTime = document.getElementById('miniCurrentTime');
+  const mainDuration = document.getElementById('mainDuration');
+  const miniDuration = document.getElementById('miniDuration');
+  const mainMute = document.getElementById('mainMute');
+  const mainVolumeBar = document.getElementById('mainVolumeBar');
+  const mainFullscreen = document.getElementById('mainFullscreen');
+  const bgFullscreen = document.getElementById('bgFullscreen');
+  const backgroundVideo = document.getElementById('backgroundVideo');
+
+  // Функция форматирования времени
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  // Функция обновления прогресс-бара
+  function updateProgress(video, progressBar, currentTimeSpan, durationSpan) {
+    if (video.duration) {
+      const progress = (video.currentTime / video.duration) * 100;
+      progressBar.style.width = progress + '%';
+      currentTimeSpan.textContent = formatTime(video.currentTime);
+      durationSpan.textContent = formatTime(video.duration);
+    }
+  }
+
+  // Функция воспроизведения/паузы
+  function togglePlayPause(video, playPauseBtn) {
+    if (video.paused) {
+      video.play();
+      playPauseBtn.textContent = '⏸';
+    } else {
+      video.pause();
+      playPauseBtn.textContent = '▶';
+    }
+  }
+
+  // Основное видео
+  mainVideo.addEventListener('loadedmetadata', function() {
+    mainDuration.textContent = formatTime(mainVideo.duration);
+  });
+
+  mainVideo.addEventListener('timeupdate', function() {
+    updateProgress(mainVideo, mainProgressBar, mainCurrentTime, mainDuration);
+  });
+
+  mainPlayPause.addEventListener('click', function() {
+    togglePlayPause(mainVideo, mainPlayPause);
+  });
+
+  // Мини видео
+  miniVideo.addEventListener('loadedmetadata', function() {
+    miniDuration.textContent = formatTime(miniVideo.duration);
+  });
+
+  miniVideo.addEventListener('timeupdate', function() {
+    updateProgress(miniVideo, miniProgressBar, miniCurrentTime, miniDuration);
+  });
+
+  miniPlayPause.addEventListener('click', function() {
+    togglePlayPause(miniVideo, miniPlayPause);
+  });
+
+  // Фоновое видео
+  bgVideo.addEventListener('loadedmetadata', function() {
+    // Автоматически запускаем фоновое видео
+    bgVideo.play().catch(function(error) {
+      console.log('Автовоспроизведение заблокировано браузером');
+    });
+  });
+
+  bgVideo.addEventListener('ended', function() {
+    // Останавливаем видео в конце
+    bgVideo.pause();
+    bgPlayPause.textContent = '▶';
+  });
+
+  bgPlayPause.addEventListener('click', function() {
+    togglePlayPause(bgVideo, bgPlayPause);
+  });
+
+  // Прогресс-бар
+  mainProgressBar.parentElement.addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const percentage = clickX / width;
+    mainVideo.currentTime = percentage * mainVideo.duration;
+  });
+
+  miniProgressBar.parentElement.addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const percentage = clickX / width;
+    miniVideo.currentTime = percentage * miniVideo.duration;
+  });
+
+  // Громкость
+  mainMute.addEventListener('click', function() {
+    if (mainVideo.muted) {
+      mainVideo.muted = false;
+      mainMute.textContent = '🔊';
+    } else {
+      mainVideo.muted = true;
+      mainMute.textContent = '🔇';
+    }
+  });
+
+  mainVolumeBar.parentElement.addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const volume = clickX / width;
+    mainVideo.volume = Math.max(0, Math.min(1, volume));
+    mainVolumeBar.style.width = (volume * 100) + '%';
+  });
+
+  // Полноэкранный режим
+  mainFullscreen.addEventListener('click', function() {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      mainVideo.parentElement.requestFullscreen();
+    }
+  });
+
+  bgFullscreen.addEventListener('click', function() {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      bgVideo.requestFullscreen();
+    }
+  });
+
+  // Синхронизация между всеми видео
+  function syncVideos(sourceVideo, targetVideos) {
+    targetVideos.forEach(video => {
+      video.currentTime = sourceVideo.currentTime;
+    });
+  }
+
+  mainVideo.addEventListener('play', function() {
+    syncVideos(mainVideo, [miniVideo, bgVideo]);
+    miniPlayPause.textContent = '⏸';
+    bgPlayPause.textContent = '⏸';
+  });
+
+  mainVideo.addEventListener('pause', function() {
+    miniVideo.pause();
+    bgVideo.pause();
+    miniPlayPause.textContent = '▶';
+    bgPlayPause.textContent = '▶';
+  });
+
+  miniVideo.addEventListener('play', function() {
+    syncVideos(miniVideo, [mainVideo, bgVideo]);
+    mainPlayPause.textContent = '⏸';
+    bgPlayPause.textContent = '⏸';
+  });
+
+  miniVideo.addEventListener('pause', function() {
+    mainVideo.pause();
+    bgVideo.pause();
+    mainPlayPause.textContent = '▶';
+    bgPlayPause.textContent = '▶';
+  });
+
+  bgVideo.addEventListener('play', function() {
+    syncVideos(bgVideo, [mainVideo, miniVideo]);
+    mainPlayPause.textContent = '⏸';
+    miniPlayPause.textContent = '⏸';
+  });
+
+  bgVideo.addEventListener('pause', function() {
+    mainVideo.pause();
+    miniVideo.pause();
+    mainPlayPause.textContent = '▶';
+    miniPlayPause.textContent = '▶';
+  });
+});
+
+// Видео модальное окно
+document.addEventListener('DOMContentLoaded', function() {
+  const videoModal = document.getElementById('videoModal');
+  const videoClose = document.getElementById('videoClose');
+  const miniVideo = document.getElementById('miniVideo');
+  const miniExpand = document.getElementById('miniExpand');
+  const miniClose = document.getElementById('miniClose');
+  const backgroundVideo = document.getElementById('backgroundVideo');
+
+  // Показать модальное окно при загрузке страницы
+  setTimeout(() => {
+    videoModal.classList.add('active');
+  }, 500);
+
+  // Закрыть модальное окно и показать фоновое видео
+  videoClose.addEventListener('click', function() {
+    videoModal.classList.remove('active');
+    setTimeout(() => {
+      backgroundVideo.style.display = 'block';
+    }, 300);
+  });
+
+  // Развернуть видео из фонового состояния
+  miniExpand.addEventListener('click', function() {
+    miniVideo.classList.remove('active');
+    setTimeout(() => {
+      videoModal.classList.add('active');
+    }, 300);
+  });
+
+  // Закрыть свёрнутое видео
+  miniClose.addEventListener('click', function() {
+    miniVideo.classList.remove('active');
+  });
+
+  // Закрыть модальное окно по клику вне видео
+  videoModal.addEventListener('click', function(e) {
+    if (e.target === videoModal) {
+      videoClose.click();
+    }
+  });
+
+  // Автоматически закрыть модальное окно когда видео заканчивается
+  mainVideo.addEventListener('ended', function() {
+    videoModal.classList.remove('active');
+    setTimeout(() => {
+      backgroundVideo.style.display = 'block';
+    }, 300);
+  });
+});
+
+// Автоматический скролл между экранами (только вниз)
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.querySelector('.page-container');
+  const sections = document.querySelectorAll('.section');
+  let isScrolling = false;
+  let currentSection = 0;
+  let lastScrollTop = 0;
+
+  // Функция для скролла к следующей секции
+  function scrollToSection(index) {
+    if (index >= 0 && index < sections.length) {
+      sections[index].scrollIntoView({ behavior: 'smooth' });
+      currentSection = index;
+    }
+  }
+
+  // Обработчик скролла
+  container.addEventListener('scroll', function() {
+    if (isScrolling) return;
+    
+    const scrollTop = container.scrollTop;
+    const windowHeight = window.innerHeight;
+    const scrollPercentage = (scrollTop % windowHeight) / windowHeight;
+    
+    // Проверяем направление скролла
+    const scrollingDown = scrollTop > lastScrollTop;
+    lastScrollTop = scrollTop;
+    
+    // Если проскроллено больше 99% ВНИЗ, переходим к следующей секции
+    if (scrollPercentage > 0.99 && scrollingDown) {
+      isScrolling = true;
+      setTimeout(() => {
+        scrollToSection(currentSection + 1);
+        isScrolling = false;
+      }, 300);
+    }
+  });
+
+  // Обработчик клика по стрелочкам
+  document.querySelectorAll('.scroll-arrow').forEach((arrow, index) => {
+    arrow.addEventListener('click', function() {
+      scrollToSection(index + 1);
+    });
+  });
+
+  // Обработчик клавиш (только вниз)
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      scrollToSection(currentSection + 1);
+    }
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const bgVideo = document.getElementById('bgVideo');
+  if (bgVideo) {
+    bgVideo.play().catch(() => {});
+    bgVideo.addEventListener('ended', function() {
+      bgVideo.pause();
+    });
+  }
+});
+
+// Форма бронирования
+document.addEventListener('DOMContentLoaded', function() {
+  const bookingModal = document.getElementById('bookingModal');
+  const bookingClose = document.getElementById('bookingClose');
+  const bookingBtn = document.getElementById('bookingBtn');
+  const bookingBtn2 = document.getElementById('bookingBtn2');
+  const bookingForm = document.getElementById('bookingForm');
+
+  // Открыть модальное окно формы
+  function openBookingModal() {
+    bookingModal.classList.add('active');
+    // Установить минимальную дату на сегодня
+    const dateInput = document.getElementById('date');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+  }
+
+  // Закрыть модальное окно формы
+  function closeBookingModal() {
+    bookingModal.classList.remove('active');
+    bookingForm.reset();
+  }
+
+  // Обработчики для кнопок
+  bookingBtn.addEventListener('click', openBookingModal);
+  bookingBtn2.addEventListener('click', openBookingModal);
+
+  // Закрыть по крестику
+  bookingClose.addEventListener('click', closeBookingModal);
+
+  // Закрыть по клику вне формы
+  bookingModal.addEventListener('click', function(e) {
+    if (e.target === bookingModal) {
+      closeBookingModal();
+    }
+  });
+
+  // Обработка отправки формы
+  bookingForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(bookingForm);
+    const data = {
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      date: formData.get('date'),
+      participants: formData.get('participants'),
+      message: formData.get('message') || 'Нет дополнительной информации'
+    };
+
+    // Формируем сообщение для Telegram
+    const telegramMessage = `🎯 *Новая заявка на квест «Три пути»*
+
+👤 *Имя:* ${data.name}
+📱 *Телефон:* ${data.phone}
+📅 *Дата:* ${data.date}
+👥 *Участников:* ${data.participants}
+💬 *Дополнительно:* ${data.message}
+
+🕐 *Время заявки:* ${new Date().toLocaleString('ru-RU')}`;
+
+    // Отправляем в Telegram через бота
+    const botToken = TELEGRAM_CONFIG.BOT_TOKEN;
+    const chatId = TELEGRAM_CONFIG.CHAT_ID;
+    const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    
+    const messageData = {
+      chat_id: chatId,
+      text: telegramMessage,
+      parse_mode: 'Markdown'
+    };
+
+    // Отправляем запрос к Telegram API
+    fetch(telegramUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(messageData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.ok) {
+        alert('✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
+        closeBookingModal();
+      } else {
+        alert('❌ Ошибка отправки. Попробуйте позже или свяжитесь с нами напрямую.');
+      }
+    })
+    .catch(error => {
+      console.error('Ошибка:', error);
+      // Fallback: открываем Telegram с предзаполненным сообщением
+      const fallbackMessage = encodeURIComponent(telegramMessage.replace(/\*/g, ''));
+      window.open(`${TELEGRAM_CONFIG.CHANNEL_URL}?text=${fallbackMessage}`, '_blank');
+      alert('✅ Заявка отправлена через Telegram!');
+      closeBookingModal();
+    });
+  });
+});
+</script>
 
 </body>
 </html>
