@@ -1,12 +1,16 @@
+:root {
+  --gold-color: #d4af37;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Playfair Display', serif;
   background: #111;
-  color: #fff;
+  color: var(--gold-color);
   line-height: 1.6;
   overflow-x: hidden;
 }
@@ -40,7 +44,7 @@ body {
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(212, 175, 55, 0.7);
   font-size: 2rem;
   animation: bounce 2s infinite;
   cursor: pointer;
@@ -49,7 +53,7 @@ body {
 }
 
 .scroll-arrow:hover {
-  color: rgba(255, 255, 255, 1);
+  color: rgba(212, 175, 55, 1);
 }
 
 @keyframes bounce {
@@ -89,7 +93,7 @@ body {
   z-index: 2;
   max-width: 700px;
   margin: 0 auto;
-  color: #fff;
+  color: var(--gold-color);
   font-size: 1.1rem;
   line-height: 1.9;
   animation: fadeInUp 1s ease-out;
@@ -99,7 +103,7 @@ body {
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 40px;
-  color: #fff;
+  color: var(--gold-color);
   text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
@@ -118,33 +122,33 @@ body {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 30px;
-  color: #fff;
+  color: var(--gold-color);
   text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .hero-content p {
   font-size: 1.2rem;
   margin-bottom: 40px;
-  color: #fff;
+  color: var(--gold-color);
   max-width: 600px;
 }
 
 .btn {
   display: inline-block;
   padding: 15px 35px;
-  background: #fff;
-  color: #111;
+  background: transparent;
+  color: var(--gold-color);
   font-weight: 600;
   border-radius: 6px;
   text-decoration: none;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 2px solid var(--gold-color);
 }
 
 .btn:hover {
-  background: transparent;
-  color: #fff;
-  border-color: #fff;
+  background: #111;
+  color: var(--gold-color);
+  border-color: var(--gold-color);
   transform: translateY(-2px);
 }
 
@@ -162,13 +166,13 @@ body {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 30px;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 .about-content p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #fff;
+  color: var(--gold-color);
   margin-bottom: 20px;
 }
 
@@ -186,7 +190,7 @@ body {
   font-weight: 700;
   margin-bottom: 40px;
   text-align: center;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 .timing-list {
@@ -199,11 +203,11 @@ body {
   padding: 20px;
   background: rgba(255,255,255,0.05);
   border-radius: 8px;
-  border-left: 4px solid #fff;
+  border-left: 4px solid var(--gold-color);
 }
 
 .timing-list b {
-  color: #fff;
+  color: var(--gold-color);
   font-weight: 600;
 }
 
@@ -217,7 +221,7 @@ body {
   font-weight: 700;
   margin-bottom: 40px;
   text-align: center;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 .paths {
@@ -252,13 +256,13 @@ body {
 .card h3 {
   margin: 20px 20px 10px 20px;
   font-size: 1.4rem;
-  color: #fff;
+  color: var(--gold-color);
   font-weight: 600;
 }
 
 .card p {
   margin: 0 20px 20px 20px;
-  color: #fff;
+  color: var(--gold-color);
   line-height: 1.6;
 }
 
@@ -276,13 +280,13 @@ body {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 30px;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 .features-content p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #fff;
+  color: var(--gold-color);
   margin-bottom: 20px;
 }
 
@@ -300,13 +304,13 @@ body {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 30px;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 .final-content p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 /* Преимущества */
@@ -319,7 +323,7 @@ body {
   font-weight: 700;
   margin-bottom: 40px;
   text-align: center;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 .advantages-list {
@@ -333,7 +337,7 @@ body {
   padding: 15px 20px;
   background: rgba(255,255,255,0.05);
   border-radius: 6px;
-  border-left: 3px solid #fff;
+  border-left: 3px solid var(--gold-color);
 }
 
 /* Локация и стоимость */
@@ -350,13 +354,13 @@ body {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 30px;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 .location-content p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #fff;
+  color: var(--gold-color);
   margin-bottom: 15px;
 }
 
@@ -370,13 +374,13 @@ body {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 .booking-content p {
   font-size: 1.1rem;
   margin-bottom: 30px;
-  color: #fff;
+  color: var(--gold-color);
 }
 
 /* Футер */
@@ -384,18 +388,18 @@ footer {
   background: #0a0a0a;
   text-align: center;
   padding: 30px 20px;
-  color: #888;
+  color: var(--gold-color);
   font-size: 0.95rem;
 }
 
 footer a {
-  color: #fff;
+  color: var(--gold-color);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 footer a:hover {
-  color: #e0e0e0;
+  color: var(--gold-color);
 }
 
 /* Анимации */
@@ -494,7 +498,7 @@ footer a:hover {
   right: 20px;
   background: rgba(0, 0, 0, 0.7);
   border: none;
-  color: #fff;
+  color: var(--gold-color);
   font-size: 1.5rem;
   width: 40px;
   height: 40px;
@@ -582,7 +586,7 @@ footer a:hover {
 .video-btn {
   background: none;
   border: none;
-  color: #fff;
+  color: var(--gold-color);
   font-size: 1.2rem;
   cursor: pointer;
   padding: 5px;
@@ -600,9 +604,9 @@ footer a:hover {
 }
 
 .video-time {
-  color: #fff;
+  color: var(--gold-color);
   font-size: 0.9rem;
-  font-family: monospace;
+  font-family: 'Playfair Display', serif;
 }
 
 .video-volume {
@@ -633,7 +637,7 @@ footer a:hover {
   right: 70px; /* Сдвигаем правее, чтобы не накладывался на крестик */
   background: rgba(0, 0, 0, 0.7);
   border: none;
-  color: #fff;
+  color: var(--gold-color);
   font-size: 1.2rem;
   width: 40px;
   height: 40px;
@@ -705,7 +709,7 @@ footer a:hover {
 .mini-video-btn {
   background: none;
   border: none;
-  color: #fff;
+  color: var(--gold-color);
   font-size: 1rem;
   cursor: pointer;
   padding: 3px;
@@ -723,9 +727,9 @@ footer a:hover {
 }
 
 .mini-video-time {
-  color: #fff;
+  color: var(--gold-color);
   font-size: 0.8rem;
-  font-family: monospace;
+  font-family: 'Playfair Display', serif;
 }
 
 /* Фоновое видео в первом экране */
@@ -845,7 +849,7 @@ footer a:hover {
   right: 20px;
   background: rgba(0, 0, 0, 0.7);
   border: none;
-  color: #fff;
+  color: var(--gold-color);
   font-size: 1.5rem;
   width: 40px;
   height: 40px;
@@ -864,7 +868,7 @@ footer a:hover {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 30px;
-  color: #fff;
+  color: var(--gold-color);
   text-align: center;
 }
 
@@ -881,7 +885,7 @@ footer a:hover {
 }
 
 .form-group label {
-  color: #fff;
+  color: var(--gold-color);
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -893,7 +897,7 @@ footer a:hover {
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  color: var(--gold-color);
   font-size: 1rem;
   transition: all 0.3s ease;
 }
@@ -902,13 +906,13 @@ footer a:hover {
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #fff;
+  border-color: var(--gold-color);
   background: rgba(255, 255, 255, 0.15);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(212, 175, 55, 0.6);
 }
 
 .form-group textarea {
@@ -967,7 +971,7 @@ footer a:hover {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 40px;
-  color: #fff;
+  color: var(--gold-color);
   animation: fadeInUp 1s ease-out;
 }
 
@@ -994,14 +998,14 @@ footer a:hover {
 .program-item h3 {
   font-size: 3rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--gold-color);
   margin-bottom: 20px;
   letter-spacing: 2px;
   text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .program-item p {
-  color: #fff;
+  color: var(--gold-color);
   line-height: 1.8;
   margin-bottom: 30px;
   font-size: 1.1rem;
