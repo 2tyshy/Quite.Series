@@ -81,56 +81,46 @@
 </footer>
 
 <script>
-// Автоматический скролл между экранами (только вниз)
+// Упрощённый и плавный скролл между секциями
 document.addEventListener('DOMContentLoaded', function() {
   const container = document.querySelector('.page-container');
-  const sections = document.querySelectorAll('.section');
-  let isScrolling = false;
+  const sections = Array.from(document.querySelectorAll('.section'));
   let currentSection = 0;
-  let lastScrollTop = 0;
+  let isScrolling = false;
 
-  // Функция для скролла к следующей секции
   function scrollToSection(index) {
-    if (index >= 0 && index < sections.length) {
-      sections[index].scrollIntoView({ behavior: 'smooth' });
-      currentSection = index;
-    }
+    if (index < 0 || index >= sections.length) return;
+    isScrolling = true;
+    currentSection = index;
+    sections[index].scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => { isScrolling = false; }, 700);
   }
 
-  // Обработчик скролла
-  container.addEventListener('scroll', function() {
-    if (isScrolling) return;
-    
-    const scrollTop = container.scrollTop;
-    const windowHeight = window.innerHeight;
-    const scrollPercentage = (scrollTop % windowHeight) / windowHeight;
-    
-    // Проверяем направление скролла
-    const scrollingDown = scrollTop > lastScrollTop;
-    lastScrollTop = scrollTop;
-    
-    // Если проскроллено больше 99% ВНИЗ, переходим к следующей секции
-    if (scrollPercentage > 0.99 && scrollingDown) {
-      isScrolling = true;
-      setTimeout(() => {
-        scrollToSection(currentSection + 1);
-        isScrolling = false;
-      }, 300);
+  // Прокрутка колёсиком
+  container.addEventListener('wheel', function(e) {
+    if (isScrolling) { e.preventDefault(); return; }
+    if (e.deltaY > 0) {
+      e.preventDefault();
+      scrollToSection(currentSection + 1);
+    } else if (e.deltaY < 0) {
+      e.preventDefault();
+      scrollToSection(currentSection - 1);
     }
-  });
+  }, { passive: false });
 
-  // Обработчик клика по стрелочкам
+  // Клики по стрелкам
   document.querySelectorAll('.scroll-arrow').forEach((arrow, index) => {
-    arrow.addEventListener('click', function() {
-      scrollToSection(index + 1);
-    });
+    arrow.addEventListener('click', () => scrollToSection(index + 1));
   });
 
-  // Обработчик клавиш (только вниз)
+  // Навигация с клавиатуры
   document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowDown' || e.key === ' ') {
       e.preventDefault();
-      scrollToSection(currentSection + 1);
+      if (!isScrolling) scrollToSection(currentSection + 1);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (!isScrolling) scrollToSection(currentSection - 1);
     }
   });
 });
