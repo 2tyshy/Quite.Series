@@ -22,54 +22,30 @@
   </section>
 
   <!-- Список квестов -->
-  <section class="section quests-section" id="quests">
-    <div class="quests-content">
+  <section class="section nav-section" id="quests">
+    <div class="nav-content">
       <h2>Доступные квесты</h2>
-      <div class="quests-grid">
-        <a href="tri-puti.html" class="quest-card">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="Квест Три пути">
-          <div class="quest-card-content">
-            <h3>Квест «Три пути»</h3>
-            <p>Выбери путь Тела, Сердца или Разума и пройди загадочный маршрут по живописной территории Z‑Camping у озера Galina.</p>
-            <div class="details">
-              <div>
-                <div class="price">600 000 VND</div>
-                <div class="duration">2-2.5 часа</div>
-              </div>
-              <div class="btn">Подробнее</div>
-            </div>
-          </div>
-        </a>
-        
-        <a href="#" class="quest-card">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="Квест Лесные тропы">
-          <div class="quest-card-content">
-            <h3>Квест «Лесные тропы»</h3>
-            <p>Исследуйте тайны древнего леса, разгадывайте загадки природы и найдите спрятанные сокровища в уединённых уголках парка.</p>
-            <div class="details">
-              <div>
-                <div class="price">500 000 VND</div>
-                <div class="duration">1.5-2 часа</div>
-              </div>
-              <div class="btn">Скоро</div>
-            </div>
-          </div>
-        </a>
-        
-        <a href="#" class="quest-card">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="Квест Ночные огни">
-          <div class="quest-card-content">
-            <h3>Квест «Ночные огни»</h3>
-            <p>Захватывающее ночное приключение с фонариками, загадочными сигналами и поиском тайных посланий под звёздным небом.</p>
-            <div class="details">
-              <div>
-                <div class="price">700 000 VND</div>
-                <div class="duration">2-3 часа</div>
-              </div>
-              <div class="btn">Скоро</div>
-            </div>
-          </div>
-        </a>
+      <div class="programs-block">
+        <div class="program-item">
+          <h3>Квест «Три пути»</h3>
+          <p>Выбери путь Тела, Сердца или Разума и пройди загадочный маршрут по живописной территории Z‑Camping у озера Galina.</p>
+          <p class="meta">600 000 VND · 2–2.5 часа</p>
+          <a href="tri-puti.html" class="btn">Подробнее</a>
+        </div>
+
+        <div class="program-item">
+          <h3>Квест «Лесные тропы»</h3>
+          <p>Исследуйте тайны древнего леса, разгадывайте загадки природы и найдите спрятанные сокровища в уединённых уголках парка.</p>
+          <p class="meta">500 000 VND · 1.5–2 часа</p>
+          <span class="btn">Скоро</span>
+        </div>
+
+        <div class="program-item">
+          <h3>Квест «Ночные огни»</h3>
+          <p>Захватывающее ночное приключение с фонариками, загадочными сигналами и поиском тайных посланий под звёздным небом.</p>
+          <p class="meta">700 000 VND · 2–3 часа</p>
+          <span class="btn">Скоро</span>
+        </div>
       </div>
     </div>
     <div class="scroll-arrow">↓</div>
@@ -88,13 +64,46 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentSection = 0;
   let isScrolling = false;
 
-  function scrollToSection(index) {
+  function scrollToSection(index, instant = false) {
     if (index < 0 || index >= sections.length) return;
     isScrolling = true;
     currentSection = index;
-    sections[index].scrollIntoView({ behavior: 'smooth' });
+    container.scrollTo({
+      top: sections[index].offsetTop,
+      behavior: instant ? 'auto' : 'smooth'
+    });
     setTimeout(() => { isScrolling = false; }, 700);
   }
+
+  function goToHash(hash, instant = false) {
+    const targetIndex = sections.findIndex(sec => sec.id === hash);
+    if (targetIndex !== -1) {
+      scrollToSection(targetIndex, instant);
+    }
+  }
+
+  // Переход по якорям на странице
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href').slice(1);
+      if (targetId) {
+        e.preventDefault();
+        window.location.hash = targetId;
+        goToHash(targetId);
+      }
+    });
+  });
+
+  // Прокрутка к секции при открытии с хэшем
+  if (window.location.hash) {
+    const initialHash = window.location.hash.slice(1);
+    setTimeout(() => goToHash(initialHash, true), 100);
+  }
+
+  window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.slice(1);
+    goToHash(hash);
+  });
 
   // Прокрутка колёсиком
   container.addEventListener('wheel', function(e) {
