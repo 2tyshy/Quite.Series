@@ -90,7 +90,7 @@
 </div>
 
 <!-- Свёрнутое видео в шапке -->
-<div class="mini-video" id="miniVideo">
+<div class="mini-video" id="miniVideoContainer">
   <div class="mini-video-header">
     <div class="mini-video-title">Teaser квеста «Три пути»</div>
     <div class="mini-video-controls">
@@ -264,7 +264,7 @@
 // Собственный видеоплеер
 document.addEventListener('DOMContentLoaded', function() {
   const mainVideo = document.getElementById('mainVideo');
-  const miniVideo = document.getElementById('miniVideo');
+  const miniVideoPlayer = document.getElementById('miniVideo');
   const bgVideo = document.getElementById('bgVideo');
   const mainPlayPause = document.getElementById('mainPlayPause');
   const miniPlayPause = document.getElementById('miniPlayPause');
@@ -323,16 +323,16 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Мини видео
-  miniVideo.addEventListener('loadedmetadata', function() {
-    miniDuration.textContent = formatTime(miniVideo.duration);
+  miniVideoPlayer.addEventListener('loadedmetadata', function() {
+    miniDuration.textContent = formatTime(miniVideoPlayer.duration);
   });
 
-  miniVideo.addEventListener('timeupdate', function() {
-    updateProgress(miniVideo, miniProgressBar, miniCurrentTime, miniDuration);
+  miniVideoPlayer.addEventListener('timeupdate', function() {
+    updateProgress(miniVideoPlayer, miniProgressBar, miniCurrentTime, miniDuration);
   });
 
   miniPlayPause.addEventListener('click', function() {
-    togglePlayPause(miniVideo, miniPlayPause);
+    togglePlayPause(miniVideoPlayer, miniPlayPause);
   });
 
   // Фоновое видео
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const clickX = e.clientX - rect.left;
     const width = rect.width;
     const percentage = clickX / width;
-    miniVideo.currentTime = percentage * miniVideo.duration;
+    miniVideoPlayer.currentTime = percentage * miniVideoPlayer.duration;
   });
 
   // Громкость
@@ -415,25 +415,25 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   mainVideo.addEventListener('play', function() {
-    syncVideos(mainVideo, [miniVideo, bgVideo]);
+    syncVideos(mainVideo, [miniVideoPlayer, bgVideo]);
     miniPlayPause.textContent = '⏸';
     bgPlayPause.textContent = '⏸';
   });
 
   mainVideo.addEventListener('pause', function() {
-    miniVideo.pause();
+    miniVideoPlayer.pause();
     bgVideo.pause();
     miniPlayPause.textContent = '▶';
     bgPlayPause.textContent = '▶';
   });
 
-  miniVideo.addEventListener('play', function() {
-    syncVideos(miniVideo, [mainVideo, bgVideo]);
+  miniVideoPlayer.addEventListener('play', function() {
+    syncVideos(miniVideoPlayer, [mainVideo, bgVideo]);
     mainPlayPause.textContent = '⏸';
     bgPlayPause.textContent = '⏸';
   });
 
-  miniVideo.addEventListener('pause', function() {
+  miniVideoPlayer.addEventListener('pause', function() {
     mainVideo.pause();
     bgVideo.pause();
     mainPlayPause.textContent = '▶';
@@ -441,14 +441,14 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   bgVideo.addEventListener('play', function() {
-    syncVideos(bgVideo, [mainVideo, miniVideo]);
+    syncVideos(bgVideo, [mainVideo, miniVideoPlayer]);
     mainPlayPause.textContent = '⏸';
     miniPlayPause.textContent = '⏸';
   });
 
   bgVideo.addEventListener('pause', function() {
     mainVideo.pause();
-    miniVideo.pause();
+    miniVideoPlayer.pause();
     mainPlayPause.textContent = '▶';
     miniPlayPause.textContent = '▶';
   });
@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
   const videoModal = document.getElementById('videoModal');
   const videoClose = document.getElementById('videoClose');
-  const miniVideo = document.getElementById('miniVideo');
+  const miniVideoContainer = document.getElementById('miniVideoContainer');
   const miniExpand = document.getElementById('miniExpand');
   const miniClose = document.getElementById('miniClose');
   const backgroundVideo = document.getElementById('backgroundVideo');
@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Развернуть видео из фонового состояния
   miniExpand.addEventListener('click', function() {
-    miniVideo.classList.remove('active');
+    miniVideoContainer.classList.remove('active');
     setTimeout(() => {
       videoModal.classList.add('active');
     }, 300);
@@ -486,7 +486,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Закрыть свёрнутое видео
   miniClose.addEventListener('click', function() {
-    miniVideo.classList.remove('active');
+    miniVideoContainer.classList.remove('active');
   });
 
   // Закрыть модальное окно по клику вне видео
