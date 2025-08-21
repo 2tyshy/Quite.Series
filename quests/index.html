@@ -96,6 +96,28 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => { isScrolling = false; }, 700);
   }
 
+  // Переход по якорям на странице
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href').slice(1);
+      const targetIndex = sections.findIndex(sec => sec.id === targetId);
+      if (targetIndex !== -1) {
+        e.preventDefault();
+        scrollToSection(targetIndex);
+      }
+    });
+  });
+
+  // Прокрутка к секции при открытии с хэшем
+  const initialHash = window.location.hash.slice(1);
+  if (initialHash) {
+    const targetIndex = sections.findIndex(sec => sec.id === initialHash);
+    if (targetIndex !== -1) {
+      // небольшая задержка, чтобы страница успела построиться
+      setTimeout(() => scrollToSection(targetIndex), 0);
+    }
+  }
+
   // Прокрутка колёсиком
   container.addEventListener('wheel', function(e) {
     if (isScrolling) { e.preventDefault(); return; }
